@@ -1,0 +1,46 @@
+#include <iostream>
+
+using namespace std;
+
+void main() {
+	setlocale(LC_ALL, "Russian");
+
+	int numb, arr[5];
+
+	cout << "Пункт 1)\nВведите пятизначное число" << endl;
+	cin >> numb;
+
+	for (int i = 4; i > -1; i--) {
+		arr[i] = numb % 10;
+		cout << i + 1 << "-я цифра в введенном числе: " << arr[i] << endl;
+		numb /= 10;
+	}
+
+
+	char ch, alph[52] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' ,'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'X', 'Y', 'Z' };
+
+	cout << "\n\nПункт 2) \nВведите латинский символ нижнего регистра" << endl;
+	cin >> ch;
+
+	for (int i = 0; i < 26; i++) {
+		if (ch == alph[i])
+			cout << alph[i + 26];
+	}
+
+
+	int *arr_2, sum = 0;
+
+	cout << "\n\nПункт 3) \nВведите длину массива" << endl;
+	cin >> numb;
+	arr_2 = new int[numb];
+
+	for (int i = 0; i < numb; i++) {
+		arr_2[i] = rand();
+		cout << i << "-й элемент массива = " << arr_2[i] << endl;
+		sum += arr_2[i];
+	}
+
+	cout << "\nСреднее арифметическое = " << float(sum)/numb << endl;
+
+	system("pause");
+}
