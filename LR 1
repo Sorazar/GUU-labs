@@ -1,1 +1,152 @@
+#include <iostream>
+#include <string>
 
+using namespace std;
+
+// Вывода матрицы
+void output(int **mas, int m) {
+
+	int i, j;
+
+	for (i = 0; i < m; i++) {
+		for (j = 0; j < m; j++)
+			cout << "mas[" << i << "][" << j << "]= " << mas[i][j];
+		cout << endl;
+	}
+}
+
+// Матрица без i-й строки и j-го столбца
+void input(int **mas, int **p, int i, int j, int m) {
+
+	int ki, kj, di, dj;
+
+	di = 0;
+
+	for (ki = 0; ki < m - 1; ki++) { // проверка индекса строки
+		if (ki == i) di = 1;
+		dj = 0;
+		for (kj = 0; kj < m - 1; kj++) { // проверка индекса столбца
+			if (kj == j) dj = 1;
+			p[ki][kj] = mas[ki + di][kj + dj];
+		}
+	}
+}
+
+// Рекурсивное вычисление определителя
+int Determinant(int **mas, int m) {
+
+	int i, j, d, k, n;
+
+	int **p;
+	p = new int*[m];
+
+	for (i = 0; i < m; i++)
+		p[i] = new int[m];
+
+	j = 0; d = 0;
+
+	k = 1; //(-1) в степени i
+
+	n = m - 1;
+
+	if (m < 1) cout << "Определитель вычислить невозможно!" << endl;
+
+	if (m == 1) {
+		d = mas[0][0];
+		return(d);
+	}
+
+	if (m == 2) {
+		d = (mas[0][0] * mas[1][1]) - (mas[1][0] * mas[0][1]);
+		return(d);
+	}
+
+	if (m > 2) {
+		for (i = 0; i < m; i++) {
+			input(mas, p, i, 0, m);
+			d = d + k * mas[i][0] * Determinant(p, n);
+			k = -k;
+		}
+	}
+
+	return(d);
+}
+
+
+void main() {
+	setlocale(LC_ALL, "Russian");
+
+	int arr[10];
+	int a = 0;
+
+	cout << "Пункт 1)\nМассив до изменений: " << endl;
+
+	for (int i = 0; i < 10; i++) {
+			arr[i] = rand();
+			cout << i << "й элемент: " << arr[i] << endl;
+	};
+
+	cout << "\nМассив после изменений: " << endl;
+
+	for (int i = 0; i < 10; i++) {
+		if (arr[i] % 2 == 0)
+			arr[i] = 0;
+		cout << i << "й элемент: " << arr[i] << endl;
+	};
+
+//
+
+	char ch;
+	string str;
+	int b = -1;
+
+	cout << "\n\nПункт 2)\nВведите строку: " << endl;
+	cin >> str;
+	cout << "\nВведите символ: " << endl;
+	cin >> ch;
+
+	for (int i = 0; i < str.length(); i++) {
+		if (str[i] == ch) {
+			b = i;
+			break;
+		}
+			
+	};
+
+	if (b != -1)
+		cout << "Номер символа в строке: " << b << endl;
+	else 
+		cout << "Символа в строке нет\n ";
+	
+//
+
+	int m, i, j, d;
+
+	int **mas;
+
+	cout << "\nПункт 3)\nВведите размерность квадратной матрицы: " << endl;
+
+	cin >> m;
+
+	mas = new int*[m];
+
+	for (i = 0; i < m; i++) {
+		mas[i] = new int[m];
+		for (j = 0; j < m; j++) {
+			mas[i][j] = rand();
+		}
+	}
+
+
+	output(mas, m);
+	d = Determinant(mas, m);
+	cout << "Определитель матрицы равен " << d << endl;
+
+	if (mas)
+	{
+		for (int i = 0; i < m; ++i)
+			delete[] mas[i];
+		delete[] mas;
+	}
+	system("pause");
+}
