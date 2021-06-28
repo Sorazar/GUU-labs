@@ -1,0 +1,106 @@
+#include <iostream>
+#include <iomanip> 
+#include <string>
+
+
+using namespace std;
+
+void main() {
+	setlocale(LC_ALL, "Russian");
+	
+	
+	string strr, change = "";
+	cout << "Пункт 1)\nВведите строку" << endl;
+	cin >> strr;
+
+	cout << "Введенная строка: " << strr << endl;
+
+	int quant = 1;
+	for (int i = 0; i < strr.length(); i++) {
+
+		if (quant != 1) {
+			if (strr[i] == strr[i + 1])
+				quant++;
+			else {
+				change += " " + to_string(quant) + "|";
+				quant = 1;
+			}
+		}
+		else {
+			if (strr[i] == strr[i + 1]) {
+				change += "|" + to_string(strr[i]);
+				quant++;
+			}
+			else 
+				change += strr[i];
+		}
+	}
+
+	cout << "Сжатая строка: " << change << endl;
+	
+
+	int a;
+
+	cout << "Пункт 2)" << endl;
+	do
+	{
+		cout << "Введите длину массива от 2 до 20: "; 
+		cin >> a;
+		if (a < 2 || a >= 20) {
+			cout << "введите 2 <= a < 20 ...\n";
+			system("pause");
+		}
+	} while (a < 1 || a >= 20);
+
+	int* arr = new int[a];
+
+	for (int i = 0; i < a; i++)
+	{
+		arr[i] = rand() % 100;
+		cout << arr[i] << "\t";
+	}
+	cout << endl;
+
+	int tmp;
+
+	for (int i = 1, j; i < a; i++)
+	{
+		tmp = arr[i];
+		for (j = i - 1; j >= 0 && arr[j] > tmp; j--) 
+			arr[j + 1] = arr[j];
+		arr[j + 1] = tmp;
+	}
+
+	for (int i = 0; i < a; i++)
+		cout << arr[i] << "\t";
+	cout << endl;
+
+	delete[]arr;
+	
+
+	string str, change_str, new_str;
+
+
+	cout << "Пункт3)\nВведите строку: ";
+	cin >> str;
+	
+	cout << "Введите заменяемую часть строки: ";
+	cin >> change_str;
+	
+	cout << "Введите новую часть строки: ";
+	cin >> new_str;
+
+	size_t pos = 0, count = 0;
+
+	while ((pos = str.find(change_str, pos)) != string::npos)
+	{
+		str.replace(pos, change_str.size(), new_str);
+		pos += new_str.size();
+		count++;
+	}
+	cout << str << endl << "Количество замен: " << count << endl;
+
+
+	system("pause");
+}
+
