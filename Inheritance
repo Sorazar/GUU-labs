@@ -1,0 +1,121 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Harbinger
+{
+private:
+	string h_name, CatchPhrase;
+	int h_age;
+
+public:
+	Harbinger(string name = "Lewdvik", string phrase = "AMOGUS", int age = 0)
+		: h_name(name), CatchPhrase(phrase), h_age(age)
+	{
+	}
+
+	string getName() const { return h_name; }
+	string getPhrase() const { return CatchPhrase; }
+	int getAge() const { return h_age; }
+
+	void setName(string name) { h_name = name; }
+	void setPhrase(string Phrase) { CatchPhrase = Phrase; }
+	void setAge(int age) { h_age = age; }
+};
+
+class Prophet : public Harbinger	// Наследование с типом public
+{
+private:
+	string MagnumOpus[3], ph_name, ph_call;
+	int ph_age;
+
+public:
+	const string *getPOpus() const { return MagnumOpus; }
+	string getPName() const { return ph_name; }
+	string getPCall() const { return ph_call; }
+	int getPAge() const { return ph_age; }
+
+	void setPOpus(string MOpus[]) {
+		for (int i = 0; i < 3; i++) {	// Проверка допустимой длины
+			if (MOpus[i].length() > 25) {
+				cout << "Senpai, your opus is too big! Число символов не должно превышать 25" << endl;
+				return;
+			}
+		}
+		for (int i = 0; i < 3; i++) {	// Поиск опуса максимальной длины
+			MagnumOpus[i] = MOpus[i];
+			if (ph_call.length() < MagnumOpus[i].length())
+				ph_call = MagnumOpus[i];
+		}
+	}
+	void setPName(const string name) { ph_name = name; }
+	void setPCall(const string call) { ph_call = call; }
+	void setPAge(int age) { ph_age = age; }
+};
+
+class DeusEx : public Prophet
+{
+private:
+	string gd_name;
+	int gd_year;
+
+public: 
+	DeusEx(string name = "Flying Spaghetti Monster", int year = 2005) : gd_name(name), gd_year(year)
+	{
+	}
+
+	string getGName() const { return gd_name; }
+	int getGYear() const { return gd_year; }
+
+	void output();
+};
+
+void DeusEx::output(){
+	cout << getName() << " в возрасте " << getAge() << " говорил, что " << getPhrase() << ".\n"; 
+	cout << "Первое пророчество: " << getPOpus()[0] << ".\nВторое пророчество: " << getPOpus()[1] << ".\nГлавное пророчество: " << getPCall() << ".\nТак говорил " << getPName() << " в возрасте " << getPAge() << ".\n";
+	cout << "В год " << getGYear() << " пришел " << getGName() << ", которого предрекали " << getName() << " и " << getPName() << ".\n";
+	
+}
+
+class Believer : private DeusEx 
+{
+private:
+	string bv_name;
+	int bv_age;
+
+public:
+	Believer(string name, int age) : bv_name(name), bv_age(age)
+	{
+	}
+
+	string getBName() const { return bv_name; }
+	int getBAge() const { return bv_age; }
+
+	void setBName(string name) { bv_name = name; }
+	void setBAge(int age) { bv_age = age; }
+
+	void output();
+};
+
+void Believer::output() {
+	cout << "Верующий " << getBName() << " молится " << getGName() << " именем " << getPName() << ". С " << getGYear() << " и по сей день.";
+}
+
+
+void main() {
+	setlocale(LC_ALL, "Russian");
+
+	string opuses[3]{ "Not backing down", "Never backing down!", "Uh!" };
+	Believer first("Mike Wazowski", 63);
+	DeusEx second; // Из-за приватного наследования Bieliver'а мы создаем еще 1 переменную, что бы задать нужные параметры в классе Prophet
+
+	second.setPName("Johnyy Silverhand");
+	second.setPAge(33);
+	second.setPOpus(opuses);
+	
+	second.output();
+	first.output();
+
+	system("pause");
+} 
